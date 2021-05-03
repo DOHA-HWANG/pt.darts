@@ -141,10 +141,11 @@ def train(train_loader, valid_loader, model, architect, w_optim, alpha_optim, lr
         nn.utils.clip_grad_norm_(model.weights(), config.w_grad_clip)
         w_optim.step()
 
-        prec1, prec5 = utils.accuracy(logits, trn_y, topk=(1, 5))
+        #prec1, prec5 = utils.accuracy(logits, trn_y, topk=(1, 5))
+        prec1 = utils.accuracy(logits, trn_y, topk=(1,))
         losses.update(loss.item(), N)
-        top1.update(prec1.item(), N)
-        top5.update(prec5.item(), N)
+        top1.update(prec1[0].item(), N)
+        #top5.update(prec5.item(), N)
 
         if step % config.print_freq == 0 or step == len(train_loader)-1:
             logger.info(
@@ -154,8 +155,8 @@ def train(train_loader, valid_loader, model, architect, w_optim, alpha_optim, lr
                     top1=top1, top5=top5))
 
         writer.add_scalar('train/loss', loss.item(), cur_step)
-        writer.add_scalar('train/top1', prec1.item(), cur_step)
-        writer.add_scalar('train/top5', prec5.item(), cur_step)
+        writer.add_scalar('train/top1', prec1[0].item(), cur_step)
+        #writer.add_scalar('train/top5', prec5.item(), cur_step)
         cur_step += 1
 
     logger.info("Train: [{:2d}/{}] Final Prec@1 {:.4%}".format(epoch+1, config.epochs, top1.avg))

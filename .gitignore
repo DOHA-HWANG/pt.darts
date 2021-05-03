@@ -1,2 +1,9 @@
 *.pyc
 *.swp
+.idea/
+data/
+searchs/
+venv/
+venv1/
+venv2/
+venv3/
