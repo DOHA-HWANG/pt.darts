@@ -41,8 +41,8 @@ class BaseConfig(argparse.Namespace):
 class SearchConfig(BaseConfig):
     def build_parser(self):
         parser = get_parser("Search config")
-        parser.add_argument('--name', required=True, default='cifar10')
-        parser.add_argument('--dataset', required=True, default='cifar10', help='CIFAR10 / MNIST / FashionMNIST')
+        parser.add_argument('--name', default='cifar10')
+        parser.add_argument('--dataset', default='cifar10', help='CIFAR10 / MNIST / FashionMNIST')
         parser.add_argument('--batch_size', type=int, default=32, help='batch size')
         parser.add_argument('--w_lr', type=float, default=0.025, help='lr for weights')
         parser.add_argument('--w_lr_min', type=float, default=0.001, help='minimum lr for weights')

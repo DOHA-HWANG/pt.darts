@@ -177,10 +177,11 @@ def validate(valid_loader, model, epoch, cur_step):
             logits = model(X)
             loss = model.criterion(logits, y)
 
-            prec1, prec5 = utils.accuracy(logits, y, topk=(1, 5))
+            #prec1, prec5 = utils.accuracy(logits, y, topk=(1, 5))
+            prec1 = utils.accuracy(logits, y, topk=(1,))
             losses.update(loss.item(), N)
-            top1.update(prec1.item(), N)
-            top5.update(prec5.item(), N)
+            top1.update(prec1[0].item(), N)
+            #top5.update(prec5.item(), N)
 
             if step % config.print_freq == 0 or step == len(valid_loader)-1:
                 logger.info(
@@ -191,7 +192,7 @@ def validate(valid_loader, model, epoch, cur_step):
 
     writer.add_scalar('val/loss', losses.avg, cur_step)
     writer.add_scalar('val/top1', top1.avg, cur_step)
-    writer.add_scalar('val/top5', top5.avg, cur_step)
+    #writer.add_scalar('val/top5', top5.avg, cur_step)
 
     logger.info("Valid: [{:2d}/{}] Final Prec@1 {:.4%}".format(epoch+1, config.epochs, top1.avg))
 
